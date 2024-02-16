@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cl76tcwhoouim"]
+
+[ext_resource type="Texture2D" uid="uid://c302m7alghg6y" path="res://Snake/snake_zombies0.png" id="2_28pur"]
+[ext_resource type="Script" path="res://Snake/Snake.cs" id="2_g7xab"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4cp1y"]
+size = Vector2(200, 56.6667)
+
+[node name="Snake" type="CharacterBody2D"]
+script = ExtResource("2_g7xab")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(1.09063, 1.09063)
+texture = ExtResource("2_28pur")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3, 1.5)
+scale = Vector2(0.3, 0.3)
+shape = SubResource("RectangleShape2D_4cp1y")

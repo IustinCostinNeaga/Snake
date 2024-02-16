@@ -1,0 +1,82 @@
+[gd_scene load_steps=9 format=3 uid="uid://8be4un3gafjf"]
+
+[ext_resource type="PackedScene" uid="uid://cl76tcwhoouim" path="res://Snake/snake.tscn" id="1_ps5pm"]
+[ext_resource type="Script" path="res://Main/Area.cs" id="1_rlnh6"]
+[ext_resource type="Texture2D" uid="uid://0kl67a7kgti2" path="res://Textures/background.tres" id="1_samaa"]
+[ext_resource type="PackedScene" uid="uid://cw4yqh0aqvdho" path="res://fruit/Fruit.tscn" id="2_neeae"]
+[ext_resource type="Texture2D" uid="uid://bfunvy6vmqxo1" path="res://Textures/texture-wide.tres" id="3_jb6jo"]
+[ext_resource type="Texture2D" uid="uid://yrmt4dxw3kud" path="res://Textures/texture-long.tres" id="4_ghfev"]
+[ext_resource type="PackedScene" uid="uid://tyd1hdwe0do6" path="res://SnakeBody/snake_body.tscn" id="5_ngjxt"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fioah"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="Gioco" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [1364.0]
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("1_rlnh6")
+FruitScene = ExtResource("2_neeae")
+SnakeBodyScene = ExtResource("5_ngjxt")
+
+[node name="Polygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 720, 0, 720)
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D/Polygon2D"]
+scale = Vector2(20, 11.25)
+texture = ExtResource("1_samaa")
+centered = false
+
+[node name="Snake" parent="Area2D/Polygon2D" instance=ExtResource("1_ps5pm")]
+
+[node name="Mura" type="Node2D" parent="Area2D/Polygon2D"]
+
+[node name="Area-Muro-Est" type="StaticBody2D" parent="Area2D/Polygon2D/Mura"]
+position = Vector2(1255, 0)
+disable_mode = 1
+
+[node name="Muro-Alto" type="CollisionPolygon2D" parent="Area2D/Polygon2D/Mura/Area-Muro-Est"]
+polygon = PackedVector2Array(0, 0, 25, 0, 25, 720, 0, 720)
+
+[node name="Muro-Alto" type="Sprite2D" parent="Area2D/Polygon2D/Mura/Area-Muro-Est/Muro-Alto"]
+texture = ExtResource("3_jb6jo")
+centered = false
+region_rect = Rect2(0, 0, 65, 63.5)
+
+[node name="Area-Muro-Nord" type="StaticBody2D" parent="Area2D/Polygon2D/Mura"]
+
+[node name="Muro-Lungo" type="CollisionPolygon2D" parent="Area2D/Polygon2D/Mura/Area-Muro-Nord"]
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 25, 0, 25)
+
+[node name="Muro" type="Sprite2D" parent="Area2D/Polygon2D/Mura/Area-Muro-Nord/Muro-Lungo"]
+texture = ExtResource("4_ghfev")
+centered = false
+
+[node name="Area-Muro-Sud" type="StaticBody2D" parent="Area2D/Polygon2D/Mura"]
+position = Vector2(0, 695)
+
+[node name="Muro-Lungo" type="CollisionPolygon2D" parent="Area2D/Polygon2D/Mura/Area-Muro-Sud"]
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 25, 0, 25)
+
+[node name="Muro" type="Sprite2D" parent="Area2D/Polygon2D/Mura/Area-Muro-Sud/Muro-Lungo"]
+texture = ExtResource("4_ghfev")
+centered = false
+
+[node name="Area-Muro-Ovest" type="StaticBody2D" parent="Area2D/Polygon2D/Mura"]
+
+[node name="Muro-Alto" type="CollisionPolygon2D" parent="Area2D/Polygon2D/Mura/Area-Muro-Ovest"]
+polygon = PackedVector2Array(0, 0, 25, 0, 25, 720, 0, 720)
+
+[node name="Muro-Alto" type="Sprite2D" parent="Area2D/Polygon2D/Mura/Area-Muro-Ovest/Muro-Alto"]
+texture = ExtResource("3_jb6jo")
+centered = false
+region_rect = Rect2(0, 0, 65, 63.5)
+
+[node name="Punteggio" type="Label" parent="Area2D"]
+offset_left = 584.0
+offset_top = 40.0
+offset_right = 624.0
+offset_bottom = 67.0
+label_settings = SubResource("LabelSettings_fioah")
+
+[connection signal="gameOver" from="Area2D/Polygon2D/Snake" to="Area2D" method="_on_snake_game_over"]
